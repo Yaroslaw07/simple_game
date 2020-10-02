@@ -18,7 +18,7 @@ void Game::Run()
 	noecho();
 	Turn_on_Colors();
 
-	Draw_E->Update(Buffer);
+	Draw_E->Update(*Buffer);
 
 	char key = ' ';
 
@@ -32,10 +32,14 @@ void Game::Run()
 
 		if (key != ERR && key != 'e')
 		{
-			hERO->KeyPress(key,Buffer);
+			hERO->KeyPress(key,*Buffer,Voltages);
 		}
 
-		Draw_E->Update(Buffer);
+		Evil->EnemyLogic(*Buffer);
+
+		VoltsUpdates();
+
+		Draw_E->Update(*Buffer);
 
 		LoopTime();
 
@@ -63,7 +67,7 @@ void Game::Run()
 void Game::LoopTime()
 {
 	std::chrono::duration<double, std::milli> diff = std::chrono::steady_clock::now() - start_time;
-	if (diff < std::chrono::duration < double, std::milli>(33.3))
+	if (diff < std::chrono::duration < double, std::milli>(60))
 		return;
 
 	start_time = std::chrono::steady_clock::now();
@@ -81,6 +85,8 @@ void Game::LoadLevel(const std::string& path)
 		width = index;
 		in >> index;
 		height = index;
+		Buffer = new Storage(width,height);
+
 		for (int Y = 0; Y < height; Y++)
 		{
 			for (int X = 0; X < width; X++)
@@ -92,14 +98,16 @@ void Game::LoadLevel(const std::string& path)
 				}
 				else if(index == 2)
 				{
-					hERO = new Heroe(Draw_E, X, Y, 3, 'w', 's', 'a', 'd');
+					Coordinate C(X, Y);
+					hERO = new Heroe( C, 3, 'w', 's', 'a', 'd',' ');
 					isHero = true;
 				}
 				else if (index == 3)
 				{
-					Evil = new Enemy(Draw_E, X, Y, 3);
+					Coordinate C(X, Y);
+					Evil = new Enemy(C, 3);
 				}
-				Buffer.Set(X, Y, index);
+				Buffer->SetObject(X, Y, index);
 			}
 		}
 	}
@@ -125,10 +133,16 @@ void Game::Win()
 }
 
 
-
-
 Game::~Game()
 {
 	delete Draw_E;
 	delete hERO;
+}
+
+void Game::VoltsUpdates()
+{
+	for (auto& elem : Voltages)
+	{
+		elem.VoltageUpdate(*Buffer);
+	}
 }

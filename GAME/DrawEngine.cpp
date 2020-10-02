@@ -5,33 +5,26 @@ DrawEngine::DrawEngine() :
 	DrawEngine(40,20){}
 
 DrawEngine::DrawEngine(int SizeX, int SizeY):
-	Screen_Width(SizeX),Screen_Hight(SizeY){}
-
-DrawEngine::~DrawEngine(){}
-
-void DrawEngine::Erase(Storage& source, const Coordinate& location)
+	Screen_Width(SizeX),Screen_Hight(SizeY)
 {
-	source.Set(location.X, location.Y, 0);
+	OldDraw = new Storage(SizeX,SizeY);
 }
 
-void DrawEngine::Draw(Storage& source, int index, const Coordinate& location)
-{
-	source.Set(location.X, location.Y,index);
-}
+DrawEngine::~DrawEngine() { delete OldDraw; }
 
 void DrawEngine::Update(Storage& NewDraw)
 {
-	if (NewDraw != OldDraw)
+	if (NewDraw != *OldDraw)
 	{
 		for (int Y = 0; Y < NewDraw.GetSizeY(); Y++)
 		{
 			for (int X = 0; X < NewDraw.GetSizeX(); X++)
 			{
 
-				if (NewDraw.Get(X,Y) == OldDraw.Get(X,Y))
+				if (NewDraw.Get(X,Y) == OldDraw->Get(X,Y))
 					continue;
-				OldDraw.Set(X, Y, NewDraw.Get(X, Y));
-				switch (OldDraw.Get(X,Y))
+				OldDraw->SetObject(X, Y, NewDraw.Get(X, Y));
+				switch (OldDraw->Get(X,Y))
 				{
 				case 0:
 				{
@@ -117,7 +110,6 @@ void DrawEngine::Update(Storage& NewDraw)
 					attroff(COLOR_PAIR(Volt_Pair));
 					break;
 				}
-				refresh();
 				}
 			}
 		}

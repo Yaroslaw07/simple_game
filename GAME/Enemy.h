@@ -1,10 +1,10 @@
 #pragma once
-#include "Object.h"
+#include "Voltage.h"
 
 class Enemy :public Object
 {
 public:
-	Enemy(DrawEngine* de, int x, int y, int lives);
+	Enemy(Coordinate location, int lives);
 
 	void EnemyLogic(Storage& NewDraw);
 };

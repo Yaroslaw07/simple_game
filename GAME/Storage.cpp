@@ -59,10 +59,7 @@ bool Storage::operator !=(const Storage& source)
 	return tmp;
 }
 
-void Storage::Set(int X, int Y, int index)
-{
-	Data[Y*SizeX + X] = index;
-}
+
 
 
 int Storage::Get(int X, int Y) const
@@ -90,4 +87,19 @@ bool Storage::isFreeMove(Coordinate& point)
 	else
 		return false;
 
+}
+
+void Storage::SetObject(int X, int Y, int index)
+{
+	Data[Y * SizeX + X] = index;
+}
+
+void Storage::EraseObject(const Coordinate& location)
+{
+	this->SetObject(location.X, location.Y, 0);
+}
+
+void Storage::SetObject(int index, const Coordinate& location)
+{
+	this->SetObject(location.X, location.Y, index);
 }

@@ -12,10 +12,13 @@ public:
 	~Storage();
 	void operator =(const Storage& source);
 	bool operator !=(const Storage& source);
-	void Set(int X, int Y, int index);
 	int Get(int X, int Y) const;
 	int GetSizeX() const;
 	int GetSizeY() const;
 
 	bool isFreeMove(Coordinate& point);
+
+	void SetObject(int X, int Y, int index);
+	void EraseObject(const Coordinate& location);
+	void SetObject(int index, const Coordinate& location);
 };

@@ -6,12 +6,11 @@ class Object
 protected:
 	int Lives;
 	Coordinate location;
-	DrawEngine* draw_engine;
 	int IndexObject;
 	Route route;
 
 public:
-	Object(DrawEngine* de, int source_index, int x , int y , int lives,Route route);
+	Object(int source_index,Coordinate location, int lives,Route route);
 	~Object();
 
 	int GetX() const;

@@ -1,12 +1,10 @@
 #include "Object.h"
 
-Object::Object(DrawEngine* de, int source_index, int x = 1, int y = 1, int lives = 3,Route route = Route::UP)
+Object::Object(int source_index, Coordinate location, int lives = 3,Route route = Route::UP)
 {
-	draw_engine = de;
 	IndexObject = source_index;
 
-	location.X = x;
-	location.Y = y;
+	this->location = location;
 
 	Lives = lives;
 
@@ -45,13 +43,12 @@ bool Object::isAlive()const
 
 void Object::eraseObject(Storage& source, Coordinate Coord)
 {
-	draw_engine->Erase(source,Coord);
+	source.EraseObject(Coord);
 }
-
 
 void Object::drawObject(Storage& source, Coordinate Coord)
 {
-	draw_engine->Draw(source, IndexObject,Coord);
+	source.SetObject(IndexObject,Coord);
 }
 
 bool Object::Move(const Route A,Storage& NewDraw)
@@ -59,9 +56,9 @@ bool Object::Move(const Route A,Storage& NewDraw)
 	Coordinate C = location + A;
 	if (NewDraw.isFreeMove(C) == true)
 	{
-		draw_engine->Erase(NewDraw, location);
+		NewDraw.EraseObject(location);
 		location += A;
-		draw_engine->Draw(NewDraw, IndexObject, location);
+		NewDraw.SetObject(IndexObject, location);
 		route = A;
 		return true;
 	}
