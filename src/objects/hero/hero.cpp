@@ -9,30 +9,30 @@ Heroe::Heroe(Coordinate location, int lives = 3,char Up_Key='w',char Down_Key = 
 	this->Shoot_Key = Shoot_Key;
 }
 
-void Heroe::KeyPress(const char c,Storage& NewDraw, std::vector<Voltage>& Voltages)
+void Heroe::keyPress(const char c,Storage& NewDraw, std::vector<Voltage>& Voltages)
 {
 	if (c == Up_Key)
 	{
-		Move(Route::UP, NewDraw);
+		move(Route::UP, NewDraw);
 	}
 
 	if (c == Down_Key)
 	{
-		Move(Route::DOWN, NewDraw);
+		move(Route::DOWN, NewDraw);
 	}
 
 	if (c == Left_Key)
 	{
-		Move(Route::LEFT, NewDraw);
+		move(Route::LEFT, NewDraw);
 	}
 
 	if (c == Right_Key)
 	{
-		Move(Route::RIGHT, NewDraw);
+		move(Route::RIGHT, NewDraw);
 	}
 
 	if (c == Shoot_Key)
 	{
-		CreateVoltage(Voltages, NewDraw, location, route);
+		createVoltage(Voltages, NewDraw, location, route);
 	}
 }

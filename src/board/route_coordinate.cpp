@@ -1,4 +1,4 @@
-#include "Route+Coordinate.h"
+#include "route_coordinate.h"
 
 Coordinate::Coordinate():
 	X(0), Y(0){}

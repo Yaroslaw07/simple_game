@@ -1,5 +1,5 @@
 #pragma once
-#include "Voltage.h"
+#include "../object.h"
 
 class Enemy :public Object
 {

@@ -2,8 +2,11 @@
 
 #include <chrono>
 #include <string>
-#include "Heroe.h"
-#include "Enemy.h"
+
+#include "board/storage.h"
+#include "draw/draw_engine.h"
+#include "objects/enemy/enemy.h"
+#include "objects/hero/Heroe.h"
 
 class Game
 {
@@ -12,9 +15,9 @@ protected:
 	Storage* Buffer;
 	int width;
 	int height;
-	Enemy* Evil;
+	Enemy* evil;
 	DrawEngine* Draw_E;
-	Heroe* hERO;
+	Heroe* hero;
 	std::vector<Voltage> Voltages;
 
 public:
@@ -23,9 +26,9 @@ public:
 	~Game();
 
 protected:
-	void LoopTime();
-	void LoadLevel(const std::string& path);
-	void Lose();
-	void Win();
-	void VoltsUpdates();
+	void loopTime();
+	void loadLevel(const std::string& path);
+	void lose();
+	void win();
+	void voltsUpdates();
 };

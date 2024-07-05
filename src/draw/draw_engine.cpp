@@ -1,30 +1,32 @@
-﻿#include "DrawEngine.h"
-#include <iostream>
+﻿#include "draw_engine.h"
+
+#include "curses.h"
+#include "texture_colors.h"
 
 DrawEngine::DrawEngine() :
 	DrawEngine(40,20){}
 
 DrawEngine::DrawEngine(int SizeX, int SizeY):
-	Screen_Width(SizeX),Screen_Hight(SizeY)
+	screenWidth(SizeX),screenHight(SizeY)
 {
-	OldDraw = new Storage(SizeX,SizeY);
+	oldDraw = new Storage(SizeX,SizeY);
 }
 
-DrawEngine::~DrawEngine() { delete OldDraw; }
+DrawEngine::~DrawEngine() { delete oldDraw; }
 
-void DrawEngine::Update(Storage& NewDraw)
+void DrawEngine::update(Storage& NewDraw)
 {
-	if (NewDraw != *OldDraw)
+	if (NewDraw != *oldDraw)
 	{
-		for (int Y = 0; Y < NewDraw.GetSizeY(); Y++)
+		for (int Y = 0; Y < NewDraw.getSizeY(); Y++)
 		{
-			for (int X = 0; X < NewDraw.GetSizeX(); X++)
+			for (int X = 0; X < NewDraw.getSizeX(); X++)
 			{
 
-				if (NewDraw.Get(X,Y) == OldDraw->Get(X,Y))
+				if (NewDraw.get(X,Y) == oldDraw->get(X,Y))
 					continue;
-				OldDraw->SetObject(X, Y, NewDraw.Get(X, Y));
-				switch (OldDraw->Get(X,Y))
+				oldDraw->setObject(X, Y, NewDraw.get(X, Y));
+				switch (oldDraw->get(X,Y))
 				{
 				case 0:
 				{

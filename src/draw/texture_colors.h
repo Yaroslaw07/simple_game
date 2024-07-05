@@ -13,9 +13,7 @@ enum TexturesColors
 	Volt_Pair
 };
 
-
-
-inline void Turn_on_Colors()
+inline void defineColors()
 {
 	init_pair(Carpet_Pair, COLOR_GREEN, COLOR_RED | 8);
 	init_pair(Boxes_Pair, COLOR_CYAN, COLOR_CYAN | 8);

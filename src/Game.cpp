@@ -1,24 +1,27 @@
 #include "Game.h"
-#include <iostream>
 #include <fstream>
 
+#include "curses.h"
+#include "draw/draw_engine.h"
+
+#include "draw/texture_colors.h"
 
 Game::Game()
 {
-	LoadLevel("E:\\Step\\C++\\GAME\\GAME\\level.txt");
+	loadLevel("");
 	Draw_E = new DrawEngine(width, height);
 }
 
 void Game::Run()
 {
-
 	initscr();
 	start_color();
 	curs_set(0);
 	noecho();
-	Turn_on_Colors();
 
-	Draw_E->Update(*Buffer);
+	defineColors();
+
+	Draw_E->update(*Buffer);
 
 	char key = ' ';
 
@@ -32,22 +35,22 @@ void Game::Run()
 
 		if (key != ERR && key != 'e')
 		{
-			hERO->KeyPress(key,*Buffer,Voltages);
+			hero->keyPress(key,*Buffer,Voltages);
 		}
 
-		Evil->EnemyLogic(*Buffer);
+		evil->EnemyLogic(*Buffer);
 
-		VoltsUpdates();
+		voltsUpdates();
 
-		Draw_E->Update(*Buffer);
+		Draw_E->update(*Buffer);
 
-		LoopTime();
+		loopTime();
 
-		if (hERO->isAlive() == false)
+		if (hero->isAlive() == false)
 		{
 			break;
 		}
-		else if(Evil->isAlive() == false or !Evil)
+		else if(evil->isAlive() == false or !evil)
 		{
 			isWin = true;
 			break;
@@ -55,16 +58,16 @@ void Game::Run()
 	}
 	if (isWin == false)
 	{
-		Lose();
+		lose();
 	}
 	else
-		Win();
+		win();
 	getch();
 	endwin();
 }
 
 
-void Game::LoopTime()
+void Game::loopTime()
 {
 	std::chrono::duration<double, std::milli> diff = std::chrono::steady_clock::now() - start_time;
 	if (diff < std::chrono::duration < double, std::milli>(60))
@@ -73,7 +76,7 @@ void Game::LoopTime()
 	start_time = std::chrono::steady_clock::now();
 }
 
-void Game::LoadLevel(const std::string& path)
+void Game::loadLevel(const std::string& path)
 {
 	std::ifstream in(path);
 	int index;
@@ -99,15 +102,15 @@ void Game::LoadLevel(const std::string& path)
 				else if(index == 2)
 				{
 					Coordinate C(X, Y);
-					hERO = new Heroe( C, 3, 'w', 's', 'a', 'd',' ');
+					hero = new Heroe( C, 3, 'w', 's', 'a', 'd',' ');
 					isHero = true;
 				}
 				else if (index == 3)
 				{
 					Coordinate C(X, Y);
-					Evil = new Enemy(C, 3);
+					evil = new Enemy(C, 3);
 				}
-				Buffer->SetObject(X, Y, index);
+				Buffer->setObject(X, Y, index);
 			}
 		}
 	}
@@ -116,7 +119,7 @@ void Game::LoadLevel(const std::string& path)
 }
 
 
-void Game::Lose()
+void Game::lose()
 {
 	clear();
 	attron(COLOR_PAIR(Wall_Pair));
@@ -124,7 +127,7 @@ void Game::Lose()
 	attroff(COLOR_PAIR(Wall_Pair));
 }
 
-void Game::Win()
+void Game::win()
 {
 	clear();
 	attron(COLOR_PAIR(Wall_Pair));
@@ -136,13 +139,13 @@ void Game::Win()
 Game::~Game()
 {
 	delete Draw_E;
-	delete hERO;
+	delete hero;
 }
 
-void Game::VoltsUpdates()
+void Game::voltsUpdates()
 {
 	for (auto& elem : Voltages)
 	{
-		elem.VoltageUpdate(*Buffer);
+		elem.voltageUpdate(*Buffer);
 	}
 }
