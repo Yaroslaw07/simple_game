@@ -8,12 +8,13 @@
 
 Game::Game()
 {
-	loadLevel("");
-	Draw_E = new DrawEngine(width, height);
+	loadLevel("../level.txt");
+	drawEngine = new DrawEngine(width, height);
 }
 
 void Game::Run()
 {
+
 	initscr();
 	start_color();
 	curs_set(0);
@@ -21,13 +22,13 @@ void Game::Run()
 
 	defineColors();
 
-	Draw_E->update(*Buffer);
+	drawEngine->update(*buffer);
 
 	char key = ' ';
 
 	bool isWin = false;
 
-	start_time = std::chrono::steady_clock::now();
+	startTime = std::chrono::steady_clock::now();
 
 	while (key != 'e')
 	{
@@ -35,14 +36,14 @@ void Game::Run()
 
 		if (key != ERR && key != 'e')
 		{
-			hero->keyPress(key,*Buffer,Voltages);
+			hero->keyPress(key,*buffer,voltages);
 		}
 
-		evil->EnemyLogic(*Buffer);
+		evil->EnemyLogic(*buffer);
 
 		voltsUpdates();
 
-		Draw_E->update(*Buffer);
+		drawEngine->update(*buffer);
 
 		loopTime();
 
@@ -69,11 +70,11 @@ void Game::Run()
 
 void Game::loopTime()
 {
-	std::chrono::duration<double, std::milli> diff = std::chrono::steady_clock::now() - start_time;
+	std::chrono::duration<double, std::milli> diff = std::chrono::steady_clock::now() - startTime;
 	if (diff < std::chrono::duration < double, std::milli>(60))
 		return;
 
-	start_time = std::chrono::steady_clock::now();
+	startTime = std::chrono::steady_clock::now();
 }
 
 void Game::loadLevel(const std::string& path)
@@ -88,7 +89,7 @@ void Game::loadLevel(const std::string& path)
 		width = index;
 		in >> index;
 		height = index;
-		Buffer = new Storage(width,height);
+		buffer = new Storage(width,height);
 
 		for (int Y = 0; Y < height; Y++)
 		{
@@ -110,7 +111,7 @@ void Game::loadLevel(const std::string& path)
 					Coordinate C(X, Y);
 					evil = new Enemy(C, 3);
 				}
-				Buffer->setObject(X, Y, index);
+				buffer->setObject(X, Y, index);
 			}
 		}
 	}
@@ -138,14 +139,14 @@ void Game::win()
 
 Game::~Game()
 {
-	delete Draw_E;
+	delete drawEngine;
 	delete hero;
 }
 
 void Game::voltsUpdates()
 {
-	for (auto& elem : Voltages)
+	for (auto& elem : voltages)
 	{
-		elem.voltageUpdate(*Buffer);
+		elem.voltageUpdate(*buffer);
 	}
 }

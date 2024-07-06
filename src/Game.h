@@ -11,14 +11,14 @@
 class Game
 {
 protected:
-	std::chrono::steady_clock::time_point start_time;
-	Storage* Buffer;
+	std::chrono::steady_clock::time_point startTime;
+	Storage* buffer;
 	int width;
 	int height;
 	Enemy* evil;
-	DrawEngine* Draw_E;
+	DrawEngine* drawEngine;
 	Heroe* hero;
-	std::vector<Voltage> Voltages;
+	std::vector<Voltage> voltages;
 
 public:
 	Game();

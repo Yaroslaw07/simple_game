@@ -22,7 +22,7 @@ add_executable(simple_game main.cpp include/curses.h
 )
 
 find_path(PDC_INCLUDES curses.h HINTS ${CMAKE_CURRENT_SOURCE_DIR}/include REQUIRED)
-find_library(PDC_LIBS pdcurses.lib HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib REQUIRED)
+find_library(PDC_LIBS pdcurses HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib REQUIRED)
 
 target_include_directories(simple_game PRIVATE ${PDC_INCLUDES})
 target_link_libraries(simple_game PRIVATE ${PDC_LIBS})
