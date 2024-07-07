@@ -26,7 +26,7 @@ void Coordinate::operator+=(const Route& Route_Path)
 
 }
 
-const Coordinate operator+(const Coordinate& current, const Route& Route_Path)
+Coordinate operator+(const Coordinate& current, const Route& Route_Path)
 {
 	Coordinate location = current;
 

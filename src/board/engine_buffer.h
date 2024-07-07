@@ -1,18 +1,19 @@
 #pragma once
 #include "route_coordinate.h"
 
-class Storage
+class EngineBuffer
 {
-	int* Data;
-	int SizeX, SizeY;
+	int* data;
+	int sizeX, sizeY;
 public:
-	Storage();
-	Storage(int sizeX, int sizeY);
-	Storage(const Storage& source);
-	~Storage();
+	EngineBuffer(int sizeX, int sizeY);
+	EngineBuffer(const EngineBuffer& source);
 
-	void operator =(const Storage& source);
-	bool operator !=(const Storage& source);
+	~EngineBuffer();
+
+	EngineBuffer& operator =(const EngineBuffer& source);
+	bool operator !=(const EngineBuffer& source) const;
+
 	int get(int X, int Y) const;
 	int getSizeX() const;
 	int getSizeY() const;

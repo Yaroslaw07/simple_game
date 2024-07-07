@@ -1,4 +1,4 @@
-#include "Heroe.h"
+#include "hero.h"
 
 Heroe::Heroe(Coordinate location, int lives = 3,char Up_Key='w',char Down_Key = 's',char Left_Key = 'a',char Right_Key = 'd',char Shoot_Key = ' '):Object(2, location, lives,Route::UP)
 {
@@ -9,7 +9,7 @@ Heroe::Heroe(Coordinate location, int lives = 3,char Up_Key='w',char Down_Key = 
 	this->Shoot_Key = Shoot_Key;
 }
 
-void Heroe::keyPress(const char c,Storage& NewDraw, std::vector<Voltage>& Voltages)
+void Heroe::keyPress(const char c,EngineBuffer& NewDraw, std::vector<Voltage>& Voltages)
 {
 	if (c == Up_Key)
 	{

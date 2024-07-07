@@ -1,10 +1,10 @@
-#include "Voltage.h"
+#include "voltage.h"
 
 
 Voltage::Voltage(Coordinate location, Route direction):Object(10,location,1,direction)
 {}
 
-Coordinate Voltage::voltageUpdate(Storage& NewDraw)
+Coordinate Voltage::voltageUpdate(EngineBuffer& NewDraw)
 {
 	if (isNewVolt == true)
 	{
@@ -23,12 +23,12 @@ Coordinate Voltage::voltageUpdate(Storage& NewDraw)
 	return {-1, -1};
 }
 
-void Voltage::deleteVoltage(Storage& NewDraw) const
+void Voltage::deleteVoltage(EngineBuffer& NewDraw) const
 {
 	NewDraw.eraseObject(location);
 }
 
-void createVoltage(std::vector<Voltage>& Volts, Storage& Buff, Coordinate& a, const Route& route)
+void createVoltage(std::vector<Voltage>& Volts, EngineBuffer& Buff, Coordinate& a, const Route& route)
 {
 	if (Coordinate check = a + route; Buff.isFreeMove(check) == true)
 	{

@@ -1,4 +1,4 @@
-#include "Object.h"
+#include "object.h"
 
 Object::Object(int source_index, Coordinate location, int lives = 3,Route route = Route::UP)
 {
@@ -40,17 +40,17 @@ bool Object::isAlive()const
 	return (lives > 0);
 }
 
-void Object::eraseObject(Storage& source, Coordinate Coord)
+void Object::eraseObject(EngineBuffer& source, Coordinate Coord)
 {
 	source.eraseObject(Coord);
 }
 
-void Object::drawObject(Storage& source, Coordinate Coord) const
+void Object::drawObject(EngineBuffer& source, Coordinate Coord) const
 {
 	source.setObject(indexObject,Coord);
 }
 
-bool Object::move(const Route A,Storage& NewDraw)
+bool Object::move(const Route A,EngineBuffer& NewDraw)
 {
 	Coordinate coordinate = location + A;
 	if (NewDraw.isFreeMove(coordinate) == true)

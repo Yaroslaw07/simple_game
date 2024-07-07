@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "game.h"
 #include <fstream>
 
 #include "curses.h"
@@ -8,17 +8,22 @@
 
 Game::Game()
 {
-	loadLevel("../level.txt");
+	const Coordinate size = loadLevel("level.txt");
+
+	width = size.X;
+	height = size.Y;
+
 	drawEngine = new DrawEngine(width, height);
 }
 
 void Game::Run()
 {
-
 	initscr();
 	start_color();
 	curs_set(0);
 	noecho();
+
+	nodelay(stdscr, TRUE);
 
 	defineColors();
 
@@ -28,7 +33,7 @@ void Game::Run()
 
 	bool isWin = false;
 
-	startTime = std::chrono::steady_clock::now();
+	clock_gettime(CLOCK_MONOTONIC, &startTime);
 
 	while (key != 'e')
 	{
@@ -45,51 +50,43 @@ void Game::Run()
 
 		drawEngine->update(*buffer);
 
-		loopTime();
-
 		if (hero->isAlive() == false)
 		{
 			break;
 		}
-		else if(evil->isAlive() == false or !evil)
+
+		if(evil && evil->isAlive() == false or !evil)
 		{
 			isWin = true;
 			break;
 		}
+
+		timespec sleepTime = {0, 50000000L}; // 50 milliseconds
+		nanosleep(&sleepTime, NULL);
 	}
-	if (isWin == false)
-	{
-		lose();
-	}
-	else
-		win();
+
+	isWin ? win() : lose();
+
 	getch();
 	endwin();
 }
 
-
-void Game::loopTime()
-{
-	std::chrono::duration<double, std::milli> diff = std::chrono::steady_clock::now() - startTime;
-	if (diff < std::chrono::duration < double, std::milli>(60))
-		return;
-
-	startTime = std::chrono::steady_clock::now();
-}
-
-void Game::loadLevel(const std::string& path)
+Coordinate Game::loadLevel(const std::string& path)
 {
 	std::ifstream in(path);
-	int index;
-	bool isHero = false;
+	int width;
+	int height;
 
-	if (in.is_open())
-	{
+	if (in.is_open()) {
+		int index;
+		bool isHero = false;
+
 		in >> index;
 		width = index;
 		in >> index;
 		height = index;
-		buffer = new Storage(width,height);
+
+		buffer = new EngineBuffer(width,height);
 
 		for (int Y = 0; Y < height; Y++)
 		{
@@ -102,7 +99,7 @@ void Game::loadLevel(const std::string& path)
 				}
 				else if(index == 2)
 				{
-					Coordinate C(X, Y);
+					const Coordinate C(X, Y);
 					hero = new Heroe( C, 3, 'w', 's', 'a', 'd',' ');
 					isHero = true;
 				}
@@ -114,11 +111,16 @@ void Game::loadLevel(const std::string& path)
 				buffer->setObject(X, Y, index);
 			}
 		}
+	} else {
+		printw("Error: Unable to open level file.");
+		getch(); // Wait for user input to acknowledge the error.
+		endwin(); // Restore terminal to its original state.
+		exit(EXIT_FAILURE); // Exit the program with an error code.
 	}
-
 	in.close();
-}
 
+	return {width, height};
+}
 
 void Game::lose()
 {

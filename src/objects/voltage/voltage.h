@@ -2,9 +2,8 @@
 
 #include <vector>
 
-#include "../object.h"
-
-#include "../../board/storage.h"
+#include "objects/object.h"
+#include "board/engine_buffer.h"
 
 class Voltage:public Object
 {

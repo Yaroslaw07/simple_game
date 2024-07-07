@@ -1,6 +1,6 @@
 #pragma once
-#include "../board/route_coordinate.h"
-#include "../board/storage.h"
+#include "board/route_coordinate.h"
+#include "board/engine_buffer.h"
 
 class Object
 {
@@ -23,8 +23,8 @@ public:
 	void eraseLives(const int& damage);
 	bool isAlive() const;
 
-	static void eraseObject(Storage& source, Coordinate Coord);
-	void drawObject(Storage& source, Coordinate Coord) const;
+	static void eraseObject(EngineBuffer& source, Coordinate Coord);
+	void drawObject(EngineBuffer& source, Coordinate Coord) const;
 
-	bool move(Route A, Storage& NewDraw);
+	bool move(Route A, EngineBuffer& NewDraw);
 };

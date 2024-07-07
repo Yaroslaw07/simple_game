@@ -3,18 +3,16 @@
 #include "curses.h"
 #include "texture_colors.h"
 
-DrawEngine::DrawEngine() :
-	DrawEngine(40,20){}
 
 DrawEngine::DrawEngine(int SizeX, int SizeY):
 	screenWidth(SizeX),screenHight(SizeY)
 {
-	oldDraw = new Storage(SizeX,SizeY);
+	oldDraw = new EngineBuffer(SizeX,SizeY);
 }
 
 DrawEngine::~DrawEngine() { delete oldDraw; }
 
-void DrawEngine::update(Storage& NewDraw)
+void DrawEngine::update(EngineBuffer& NewDraw)
 {
 	if (NewDraw != *oldDraw)
 	{
@@ -38,7 +36,7 @@ void DrawEngine::update(Storage& NewDraw)
 				case 1:
 				{
 					attron(COLOR_PAIR(Boxes_Pair));
-					mvaddch(Y, X, wchar_t(9604));
+					mvaddch(Y, X, 9604);
 					attroff(COLOR_PAIR(Boxes_Pair));
 					break;
 				}

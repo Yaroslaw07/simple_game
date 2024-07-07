@@ -1,23 +1,26 @@
 #pragma once
 
-#include <chrono>
 #include <string>
+#include <ctime>
+#include <chrono>
 
-#include "board/storage.h"
+#include "board/engine_buffer.h"
 #include "draw/draw_engine.h"
 #include "objects/enemy/enemy.h"
-#include "objects/hero/Heroe.h"
+#include "objects/hero/hero.h"
 
 class Game
 {
-protected:
-	std::chrono::steady_clock::time_point startTime;
-	Storage* buffer;
+	timespec startTime;
+
+	EngineBuffer* buffer;
+	DrawEngine* drawEngine;
+
 	int width;
 	int height;
-	Enemy* evil;
-	DrawEngine* drawEngine;
+
 	Heroe* hero;
+	Enemy* evil;
 	std::vector<Voltage> voltages;
 
 public:
@@ -26,9 +29,10 @@ public:
 	~Game();
 
 protected:
-	void loopTime();
-	void loadLevel(const std::string& path);
+	Coordinate loadLevel(const std::string& path);
+
 	void lose();
 	void win();
+
 	void voltsUpdates();
 };

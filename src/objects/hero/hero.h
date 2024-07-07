@@ -2,11 +2,11 @@
 
 #include "vector"
 
-#include "../voltage/Voltage.h"
-#include "../object.h"
+#include "objects/voltage/voltage.h"
+#include "objects/object.h"
 
-#include "../../board/route_coordinate.h"
-#include "../../board/storage.h"
+#include "board/route_coordinate.h"
+#include "board/engine_buffer.h"
 
 
 class Heroe : public Object
@@ -16,5 +16,5 @@ private:
 public:
 	Heroe(Coordinate location, int lives,char Up_Key,char Down_Key ,char Left_Key ,char Right_Key ,char Shoot_Key);
 
-	void keyPress(char c,Storage& NewDraw,std::vector<Voltage>& Voltages);
+	void keyPress(char c,EngineBuffer& NewDraw,std::vector<Voltage>& Voltages);
 };
