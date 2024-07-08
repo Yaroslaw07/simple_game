@@ -26,6 +26,10 @@ void Coordinate::operator+=(const Route& Route_Path)
 
 }
 
+bool Coordinate::operator==(const Coordinate &coordinate) const {
+	return (this->X == coordinate.X && this->Y == coordinate.Y);
+}
+
 Coordinate operator+(const Coordinate& current, const Route& Route_Path)
 {
 	Coordinate location = current;

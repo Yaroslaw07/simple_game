@@ -1,50 +1,50 @@
 #pragma once
 #include <draw/texture_colors.h>
 
-enum GameObject {
-    Carpet = 0,
-    Boxes = 1,
-    Hero = 2,
-    Enemy = 3,
-    Wall_TopLeft = 4,
-    Wall_BottomLeft = 5,
-    Wall_TopRight = 6,
-    Wall_BottomRight = 7,
-    Wall_Horizontal = 8,
-    Wall_Vertical = 9,
-    Volt = 10
+enum GAME_OBJECTS {
+    CARPET = 0,
+    BOX = 1,
+    HERO = 2,
+    ENEMY = 3,
+    WALL_TOP_LEFT = 4,
+    WALL_BOTTOM_LEFT = 5,
+    WALL_TOP_RIGHT = 6,
+    WALL_BOTTOM_RIGHT = 7,
+    WALL_HORIZONTAL = 8,
+    WALL_VERTICAL = 9,
+    VOLT = 10
 };
 
-inline int getColorPair(const GameObject& obj) {
+inline TexturesColors getColorPair(const GAME_OBJECTS& obj) {
     switch (obj) {
-        case Carpet: return Carpet_Pair;
-        case Boxes: return Boxes_Pair;
-        case Hero: return Hero_Pair;
-        case Enemy: return Enemy_Pair;
-        case Wall_TopLeft:
-        case Wall_BottomLeft:
-        case Wall_TopRight:
-        case Wall_BottomRight:
-        case Wall_Horizontal:
-        case Wall_Vertical: return Wall_Pair;
-        case Volt: return Volt_Pair;
-        default: return 0;
+        case CARPET: return Carpet_Pair;
+        case BOX: return Boxes_Pair;
+        case HERO: return Hero_Pair;
+        case ENEMY: return Enemy_Pair;
+        case WALL_TOP_LEFT:
+        case WALL_BOTTOM_LEFT:
+        case WALL_TOP_RIGHT:
+        case WALL_BOTTOM_RIGHT:
+        case WALL_HORIZONTAL:
+        case WALL_VERTICAL: return Wall_Pair;
+        case VOLT: return Volt_Pair;
+        default: return Carpet_Pair;
     }
 }
 
-inline wchar_t getSymbol(GameObject obj) {
+inline wchar_t getSymbol(GAME_OBJECTS obj) {
     switch (obj) {
-        case Carpet: return ' ';
-        case Boxes: return 9604;
-        case Hero:
-        case Enemy: return 167;
-        case Wall_TopLeft: return 9556;
-        case Wall_BottomLeft: return 9562;
-        case Wall_TopRight: return 9559;
-        case Wall_BottomRight: return 9565;
-        case Wall_Horizontal: return 9552;
-        case Wall_Vertical: return 9553;
-        case Volt: return 1161;
+        case CARPET: return ' ';
+        case BOX: return 9604;
+        case HERO:
+        case ENEMY: return 167;
+        case WALL_TOP_LEFT: return 9556;
+        case WALL_BOTTOM_LEFT: return 9562;
+        case WALL_TOP_RIGHT: return 9559;
+        case WALL_BOTTOM_RIGHT: return 9565;
+        case WALL_HORIZONTAL: return 9552;
+        case WALL_VERTICAL: return 9553;
+        case VOLT: return 1161;
         default: return L'?';
     }
 }

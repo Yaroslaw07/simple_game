@@ -11,6 +11,8 @@ public:
 	int X, Y;
 	Coordinate();
 	Coordinate(int X, int Y);
+
 	friend Coordinate operator+(const Coordinate& current, const Route& Route_Path);
 	void operator+=(const Route& Route_Path);
+	bool operator==(const Coordinate& coordinate) const;
 };

@@ -1,38 +1,23 @@
 #pragma once
 
-#include <string>
-#include <ctime>
 #include <chrono>
 
-#include "board/engine_buffer.h"
+#include "board/board.h"
 #include "draw/draw_engine.h"
-#include "objects/enemy/enemy.h"
-#include "objects/hero/hero.h"
 
 class Game
 {
-	timespec startTime;
-
-	EngineBuffer* buffer;
+	timespec startTime{};
 	DrawEngine* drawEngine;
-
-	int width;
-	int height;
-
-	Heroe* hero;
-	Enemy* evil;
-	std::vector<Voltage> voltages;
-
+	Board* board;
 public:
 	Game();
-	void Run();
+	void Start();
 	~Game();
 
 protected:
-	Coordinate loadLevel(const std::string& path);
+	void gameCycle(const char& key);
 
-	void lose();
-	void win();
-
-	void voltsUpdates();
+	static void lose();
+	static void win();
 };

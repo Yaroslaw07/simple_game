@@ -14,19 +14,20 @@ include_directories(${CURSES_INCLUDE_DIR})
 add_executable(simple_game main.cpp
         src/game.h
         src/game.cpp
-        src/board/route_coordinate.h
-        src/board/route_coordinate.cpp
-        src/board/engine_buffer.h
-        src/board/engine_buffer.cpp
+        src/route_coordinate/route_coordinate.h
+        src/route_coordinate/route_coordinate.cpp
+        src/state_buffer/state_buffer.h
+        src/state_buffer/state_buffer.cpp
         src/draw/draw_engine.h
         src/objects/object.h
         src/objects/object.cpp
-        src/objects/enemy/enemy.cpp
-        src/objects/hero/hero.cpp
-        src/objects/voltage/voltage.cpp
         src/draw/draw_engine.cpp
         include/curses.h
         src/objects/object_map.h
+        src/objects/voltage.h
+        src/board/board.cpp
+        src/board/board.h
+        src/objects/action.h
 )
 
 target_link_libraries(simple_game ${CURSES_LIBRARIES})

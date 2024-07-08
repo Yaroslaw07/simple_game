@@ -8,15 +8,32 @@
 
 Game::Game()
 {
-	const Coordinate size = loadLevel("level.txt");
+	board = new Board();
+	board->loadLevel("level.txt");
 
-	width = size.X;
-	height = size.Y;
-
-	drawEngine = new DrawEngine(width, height);
+	drawEngine = new DrawEngine(board->width, board->height);
 }
 
-void Game::Run()
+Game::~Game()
+{
+	delete drawEngine;
+}
+
+void Game::gameCycle(const char& playerInput) {
+
+	if (playerInput != ERR && playerInput != 'e')
+	{
+		board->updateHero(playerInput);
+	}
+
+	board->updateEnemy();
+	board->updateVoltages();
+
+	drawEngine->update(*board->buffer);
+}
+
+
+void Game::Start()
 {
 	initscr();
 	start_color();
@@ -27,7 +44,7 @@ void Game::Run()
 
 	defineColors();
 
-	drawEngine->update(*buffer);
+	drawEngine->update(*board->buffer);
 
 	char key = ' ';
 
@@ -39,30 +56,10 @@ void Game::Run()
 	{
 		key = getch();
 
-		if (key != ERR && key != 'e')
-		{
-			hero->keyPress(key,*buffer,voltages);
-		}
-
-		evil->EnemyLogic(*buffer);
-
-		voltsUpdates();
-
-		drawEngine->update(*buffer);
-
-		if (hero->isAlive() == false)
-		{
-			break;
-		}
-
-		if(evil && evil->isAlive() == false or !evil)
-		{
-			isWin = true;
-			break;
-		}
+		gameCycle(key);
 
 		timespec sleepTime = {0, 50000000L}; // 50 milliseconds
-		nanosleep(&sleepTime, NULL);
+		nanosleep(&sleepTime, nullptr);
 	}
 
 	isWin ? win() : lose();
@@ -71,84 +68,18 @@ void Game::Run()
 	endwin();
 }
 
-Coordinate Game::loadLevel(const std::string& path)
-{
-	std::ifstream in(path);
-	int width;
-	int height;
-
-	if (in.is_open()) {
-		int index;
-		bool isHero = false;
-
-		in >> index;
-		width = index;
-		in >> index;
-		height = index;
-
-		buffer = new EngineBuffer(width,height);
-
-		for (int Y = 0; Y < height; Y++)
-		{
-			for (int X = 0; X < width; X++)
-			{
-				in >> index;
-				if ((index == 2 and isHero == true) or index == 10)
-				{
-					index = 0;
-				}
-				else if(index == 2)
-				{
-					const Coordinate C(X, Y);
-					hero = new Heroe( C, 3, 'w', 's', 'a', 'd',' ');
-					isHero = true;
-				}
-				else if (index == 3)
-				{
-					Coordinate C(X, Y);
-					evil = new Enemy(C, 3);
-				}
-				buffer->setObject(X, Y, index);
-			}
-		}
-	} else {
-		printw("Error: Unable to open level file.");
-		getch(); // Wait for user input to acknowledge the error.
-		endwin(); // Restore terminal to its original state.
-		exit(EXIT_FAILURE); // Exit the program with an error code.
-	}
-	in.close();
-
-	return {width, height};
-}
-
 void Game::lose()
 {
 	clear();
-	attron(COLOR_PAIR(Wall_Pair));
+	attron(Wall_Pair);
 	printw("You Lose");
-	attroff(COLOR_PAIR(Wall_Pair));
+	attroff(Wall_Pair);
 }
 
 void Game::win()
 {
 	clear();
-	attron(COLOR_PAIR(Wall_Pair));
+	attron(Wall_Pair);
 	printw("You Win");
-	attroff(COLOR_PAIR(Wall_Pair));
-}
-
-
-Game::~Game()
-{
-	delete drawEngine;
-	delete hero;
-}
-
-void Game::voltsUpdates()
-{
-	for (auto& elem : voltages)
-	{
-		elem.voltageUpdate(*buffer);
-	}
+	attroff(Wall_Pair);
 }

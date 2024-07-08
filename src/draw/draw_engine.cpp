@@ -4,116 +4,39 @@
 #include "texture_colors.h"
 
 
-DrawEngine::DrawEngine(int SizeX, int SizeY):
-	screenWidth(SizeX),screenHight(SizeY)
+DrawEngine::DrawEngine(int sizeX, int sizeY):
+	screenWidth(sizeX),screenHight(sizeY)
 {
-	oldDraw = new EngineBuffer(SizeX,SizeY);
+	oldState = new StateBuffer(sizeX,sizeY);
 }
 
-DrawEngine::~DrawEngine() { delete oldDraw; }
+DrawEngine::~DrawEngine() { delete oldState; }
 
-void DrawEngine::update(EngineBuffer& NewDraw)
+void DrawEngine::update(StateBuffer& newState)
 {
-	if (NewDraw != *oldDraw)
+	if (newState != *oldState)
 	{
-		for (int Y = 0; Y < NewDraw.getSizeY(); Y++)
+		for (int Y = 0; Y < newState.getSizeY(); Y++)
 		{
-			for (int X = 0; X < NewDraw.getSizeX(); X++)
+			for (int X = 0; X < newState.getSizeX(); X++)
 			{
 
-				if (NewDraw.get(X,Y) == oldDraw->get(X,Y))
+				if (newState.get({X,Y}) == oldState->get({X,Y}))
 					continue;
-				oldDraw->setObject(X, Y, NewDraw.get(X, Y));
-				switch (oldDraw->get(X,Y))
-				{
-				case 0:
-				{
-					attron(COLOR_PAIR(Carpet_Pair));
-					mvaddch(Y,X,' ');
-					attroff(COLOR_PAIR(Carpet_Pair));
-					break;
-				}
-				case 1:
-				{
-					attron(COLOR_PAIR(Boxes_Pair));
-					mvaddch(Y, X, 9604);
-					attroff(COLOR_PAIR(Boxes_Pair));
-					break;
-				}
-				case 2:
-				{
-					attron(COLOR_PAIR(Hero_Pair));
-					mvaddch(Y, X, wchar_t(167));
-					attroff(COLOR_PAIR(Hero_Pair));
-					break;
-				}
-				case 3:
-				{
-					attron(COLOR_PAIR(Enemy_Pair));
-					mvaddch(Y, X, wchar_t(167));
-					attroff(COLOR_PAIR(Enemy_Pair));
-					break;
-				}
-				//Walls
-				//╔
-				case 4:
-				{
-					attron(COLOR_PAIR(Wall_Pair));
-					mvaddch(Y, X, wchar_t(9556));
-					attroff(COLOR_PAIR(Wall_Pair));
-					break;
-				}
-				//╚
-				case 5:
-				{
-					attron(COLOR_PAIR(Wall_Pair));
-					mvaddch(Y, X, wchar_t(9562));
-					attroff(COLOR_PAIR(Wall_Pair));
-					break;
-				}
-				//╗
-				case 6:
-				{
-					attron(COLOR_PAIR(Wall_Pair));
-					mvaddch(Y, X, wchar_t(9559));
-					attroff(COLOR_PAIR(Wall_Pair));
-					break;
-				}
-				//╝
-				case 7:
-				{
-					attron(COLOR_PAIR(Wall_Pair));
-					mvaddch(Y, X, wchar_t(9565));
-					attroff(COLOR_PAIR(Wall_Pair));
-					break;
-				}
-				//═
-				case 8:
-				{
-					attron(COLOR_PAIR(Wall_Pair));
-					mvaddch(Y, X, wchar_t(9552));
-					attroff(COLOR_PAIR(Wall_Pair));
-					break;
-				}
-				//║
-				case 9:
-				{
-					attron(COLOR_PAIR(Wall_Pair));
-					mvaddch(Y, X, wchar_t(9553));
-					attroff(COLOR_PAIR(Wall_Pair));
-					break;
-				}
-				case 10:
-				{
-					attron(COLOR_PAIR(Volt_Pair));
-					mvaddch(Y, X, wchar_t(1161));
-					attroff(COLOR_PAIR(Volt_Pair));
-					break;
-				}
-				}
+
+				GAME_OBJECTS currObject = GAME_OBJECTS(newState.get({X,Y}));
+				oldState->setObject({X, Y}, currObject);
+
+				TexturesColors texture = getColorPair(currObject);
+				wchar_t symbol = getSymbol(currObject);
+
+				attron(texture);
+				mvaddch(Y, X, symbol);
+				attroff(texture);
 			}
 		}
 	}
+
 	refresh();
 }
 

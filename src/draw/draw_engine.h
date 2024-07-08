@@ -1,17 +1,16 @@
 #pragma once
+#include "state_buffer/state_buffer.h"
 
-
-#include "board/engine_buffer.h"
 
 class DrawEngine
 {
-	EngineBuffer* oldDraw;
+	StateBuffer* oldState;
 protected:
 	int screenWidth, screenHight;
 
 public:
-	DrawEngine(int SizeX, int SizeY);
+	DrawEngine(int sizeX, int sizeY);
 	~DrawEngine();
 
-	void update(EngineBuffer& NewDraw);
+	void update(StateBuffer& newState);
 };

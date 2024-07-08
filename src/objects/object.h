@@ -1,30 +1,24 @@
 #pragma once
-#include "board/route_coordinate.h"
-#include "board/engine_buffer.h"
+#include "object_map.h"
+#include "route_coordinate/route_coordinate.h"
 
 class Object
 {
 protected:
 	int lives;
+
+	Route route;
 	Coordinate location;
 
-	int indexObject;
-	Route route;
+	GAME_OBJECTS objectType;
 
 public:
-	Object(int source_index,Coordinate location, int lives,Route route);
-	~Object();
+	Object(const GAME_OBJECTS& object, Coordinate location, int lives = 3,Route route = Route::UP);
 
-	int getX() const;
-	int getY() const;
-
-	Coordinate getLocation();
+	Coordinate getLocation() const;
 
 	void eraseLives(const int& damage);
 	bool isAlive() const;
 
-	static void eraseObject(EngineBuffer& source, Coordinate Coord);
-	void drawObject(EngineBuffer& source, Coordinate Coord) const;
-
-	bool move(Route A, EngineBuffer& NewDraw);
+	GAME_OBJECTS getObjectType() const;
 };
