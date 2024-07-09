@@ -5,16 +5,12 @@
 #include "curses.h"
 #include "draw/draw_engine.h"
 
-#include "draw/texture_colors.h"
-
 Game::Game()
 {
 	board = new Board();
 	board->loadLevel("level.txt");
 
 	drawEngine = new DrawEngine(board->width, board->height);
-
-	drawEngine->update(*board->buffer);
 }
 
 Game::~Game()
@@ -23,29 +19,12 @@ Game::~Game()
 	delete board;
 }
 
-void Game::gameCycle(const char& playerInput) {
-
-	if (playerInput != ERR && playerInput != 'e')
-	{
-		board->updateHero(playerInput);
-	}
-
-	// board->updateEnemy();
-	// board->updateVoltages();
-}
-
 
 void Game::Start()
 {
-	initscr();
-	start_color();
-	curs_set(0);
-	noecho();
+	drawEngine->start(*board->buffer);
 
 	nodelay(stdscr, TRUE);
-
-	defineColors();
-
 
 	char key = '&';
 
@@ -68,7 +47,19 @@ void Game::Start()
 	// isWin ? win() : lose();
 
 	getch();
-	endwin();
+
+	drawEngine->end();
+}
+
+void Game::gameCycle(const char& playerInput) {
+
+	if (playerInput != ERR && playerInput != 'e')
+	{
+		board->updateHero(playerInput);
+	}
+
+	board->updateEnemy();
+	// boared->updateVoltages();
 }
 
 // void Game::lose()
