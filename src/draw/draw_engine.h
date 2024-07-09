@@ -5,9 +5,9 @@
 class DrawEngine
 {
 	StateBuffer* oldState;
-protected:
 	int screenWidth, screenHight;
 
+	bool isFirstUpdate;
 public:
 	DrawEngine(const int& sizeX,const int& sizeY);
 	~DrawEngine();

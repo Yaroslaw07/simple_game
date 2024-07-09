@@ -8,11 +8,11 @@ enum class Route
 class Coordinate
 {
 public:
-	int X, Y;
+	int x, y;
 	Coordinate();
-	Coordinate(int X, int Y);
+	Coordinate(int x, int y);
 
-	friend Coordinate operator+(const Coordinate& current, const Route& Route_Path);
-	void operator+=(const Route& Route_Path);
+	friend Coordinate operator+(const Coordinate& current, const Route& route);
+	void operator+=(const Route& route);
 	bool operator==(const Coordinate& coordinate) const;
 };

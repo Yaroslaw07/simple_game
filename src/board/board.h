@@ -31,9 +31,9 @@ public:
 
     BOARD_STATES getState() const;
 
-    bool isPositionFree(const Coordinate& point) const;
-    void handleMove(const Coordinate& newCoordinate, const Object &object) const;
-    void handleCollision(const Coordinate& coordinate, const Object &object) const;
+    bool isPositionFree(const Coordinate& coordinate) const;
+    void handleBufferMove(const Coordinate& newCoordinate, const Object &object) const;
+    void handleBufferCollision(const Coordinate& coordinate, const Object &object) const;
 
     void updateHero(const char &key) const;
     void updateEnemy() const;

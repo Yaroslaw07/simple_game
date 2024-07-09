@@ -24,6 +24,8 @@ void Board::loadLevel(const std::string& path)
     for (int Y = 0; Y < height; Y++) {
         for (int X = 0; X < width; X++) {
             in >> index;
+
+
             const Coordinate coordinate(X, Y);
 
             switch(index) {
@@ -38,15 +40,13 @@ void Board::loadLevel(const std::string& path)
                     enemy = new Enemy(coordinate, 3);
                 break;
                 case VOLT:
-                default:
                     index = CARPET;
+                default:
                 break;
             }
 
             buffer->setObject({X, Y}, static_cast<GAME_OBJECTS>(index));
         }
-
-        std::cout << std::endl;
     }
 
     in.close();
@@ -65,16 +65,16 @@ BOARD_STATES Board::getState() const {
 }
 
 
-bool Board::isPositionFree(const Coordinate& point) const {
-    return buffer->get(point) == CARPET;
+bool Board::isPositionFree(const Coordinate& coordinate) const {
+    return buffer->get(coordinate) == CARPET;
 }
 
-void Board::handleMove(const Coordinate &newCoordinate, const Object &object) const {
+void Board::handleBufferMove(const Coordinate &newCoordinate,const Object &object) const {
     buffer->eraseObject(object.getLocation());
     buffer->setObject(newCoordinate, object.getObjectType());
 }
 
-void Board::handleCollision(const Coordinate &coordinate, const Object &object) const {
+void Board::handleBufferCollision(const Coordinate &coordinate,const Object &object) const {
     if (object.getObjectType() != VOLT) {
         return;
     }
@@ -103,8 +103,8 @@ void Board::updateHero(const char &key) const {
         if (const Coordinate newCoordinate = hero->getLocation() + hero->getRoute();
             isPositionFree(newCoordinate))
         {
-            handleMove(newCoordinate, *hero);
-
+            handleBufferMove(newCoordinate, *hero);
+            hero->setLocation(newCoordinate);
         }
     }
 
@@ -131,7 +131,7 @@ void Board::updateVoltages() const {
         if (const Coordinate newCoordinate = voltage.getLocation() + voltage.getRoute();
             isPositionFree(newCoordinate))
         {
-            handleMove(newCoordinate, voltage);
+            handleBufferMove(newCoordinate, voltage);
             voltage.setLocation(newCoordinate);
             ++it;
         } else {

@@ -1,5 +1,6 @@
 #include "game.h"
 #include <fstream>
+#include <iostream>
 
 #include "curses.h"
 #include "draw/draw_engine.h"
@@ -12,6 +13,8 @@ Game::Game()
 	board->loadLevel("level.txt");
 
 	drawEngine = new DrawEngine(board->width, board->height);
+
+	drawEngine->update(*board->buffer);
 }
 
 Game::~Game()
@@ -22,15 +25,13 @@ Game::~Game()
 
 void Game::gameCycle(const char& playerInput) {
 
-	// if (playerInput != ERR && playerInput != 'e')
-	// {
-	// 	board->updateHero(playerInput);
-	// }
-	//
+	if (playerInput != ERR && playerInput != 'e')
+	{
+		board->updateHero(playerInput);
+	}
+
 	// board->updateEnemy();
 	// board->updateVoltages();
-	//
-	// drawEngine->update(*board->buffer);
 }
 
 
@@ -45,9 +46,8 @@ void Game::Start()
 
 	defineColors();
 
-	drawEngine->update(*board->buffer);
 
-	char key = 'e';
+	char key = '&';
 
 	// bool isWin = false;
 
@@ -61,6 +61,8 @@ void Game::Start()
 
 		timespec sleepTime = {0, 50000000L}; // 50 milliseconds
 		nanosleep(&sleepTime, nullptr);
+
+		drawEngine->update(*board->buffer);
 	}
 
 	// isWin ? win() : lose();

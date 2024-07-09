@@ -1,52 +1,52 @@
 #include "route_coordinate.h"
 
 Coordinate::Coordinate():
-	X(0), Y(0){}
+	x(0), y(0){}
 
-Coordinate::Coordinate(int X, int Y) :
-	X(X), Y(Y){}
+Coordinate::Coordinate(int x, int y) :
+	x(x), y(y){}
 
-void Coordinate::operator+=(const Route& Route_Path)
+void Coordinate::operator+=(const Route& route)
 {
-	switch (Route_Path)
+	switch (route)
 	{
 	case Route::UP:
-		this->Y--;
+		this->y--;
 		break;
 	case Route::DOWN:
-		this->Y++;
+		this->y++;
 		break;
 	case Route::LEFT:
-		this->X--;
+		this->x--;
 		break;
 	case Route::RIGHT:
-		this->X++;
+		this->x++;
 		break;
 	}
 
 }
 
 bool Coordinate::operator==(const Coordinate &coordinate) const {
-	return (this->X == coordinate.X && this->Y == coordinate.Y);
+	return (this->x == coordinate.x && this->y == coordinate.y);
 }
 
-Coordinate operator+(const Coordinate& current, const Route& Route_Path)
+Coordinate operator+(const Coordinate& current, const Route& route)
 {
 	Coordinate location = current;
 
-	switch (Route_Path)
+	switch (route)
 	{
 	case Route::UP:
-		location.Y--;
+		location.y--;
 		break;
 	case Route::DOWN:
-		location.Y++;
+		location.y++;
 		break;
 	case Route::LEFT:
-		location.X--;
+		location.x--;
 		break;
 	case Route::RIGHT:
-		location.X++;
+		location.x++;
 		break;
 	}
 

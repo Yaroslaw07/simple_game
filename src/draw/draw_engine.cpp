@@ -7,39 +7,32 @@
 DrawEngine::DrawEngine(const int& sizeX,const int& sizeY):
 	screenWidth(sizeX),screenHight(sizeY)
 {
-	oldState = nullptr;
+	oldState = new StateBuffer(sizeX, sizeY);
+	isFirstUpdate = true;
 }
 
 DrawEngine::~DrawEngine() { delete oldState; }
 
 void DrawEngine::update(const StateBuffer& newState)
 {
-	if (oldState == nullptr)
+	for (int y = 0; y < screenHight; y++)
 	{
-		oldState = new StateBuffer(newState);
-		return;
-	}
-
-	for (int y = 0; y < newState.getSizeY(); y++)
-	{
-		for (int x = 0; x < newState.getSizeX(); x++)
+		for (int x = 0; x < screenWidth; x++)
 		{
-
-			if (newState.get({x,y}) == oldState->get({x,y}))
-				continue;
-
-			GAME_OBJECTS currObject = GAME_OBJECTS(newState.get({x,y}));
-			oldState->setObject({x, y}, currObject);
+			GAME_OBJECTS currObject = newState.get({x,y});
 
 			TexturesColors texture = getColorPair(currObject);
 			wchar_t symbol = getSymbol(currObject);
 
-			attron(texture);
+			attron(COLOR_PAIR(texture));
 			mvaddch(y, x, symbol);
-			attroff(texture);
+			attroff(COLOR_PAIR(texture));
+
+			oldState->setObject({x, y}, currObject);
 		}
 	}
 
+	isFirstUpdate = false;
 	refresh();
 }
 

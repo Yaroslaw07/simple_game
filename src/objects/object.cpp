@@ -22,7 +22,7 @@ Route Object::getRoute() const
 	return route;
 }
 
-void Object::eraseLives(const int& damage = 1)
+void Object::eraseLives(const int& damage)
 {
 	lives -= damage;
 }

@@ -20,7 +20,7 @@ public:
 
 	Route getRoute() const;
 
-	void eraseLives(const int& damage);
+	void eraseLives(const int& damage = 1);
 	bool isAlive() const;
 
 	GAME_OBJECTS getObjectType() const;

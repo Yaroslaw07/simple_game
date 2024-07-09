@@ -15,7 +15,7 @@ StateBuffer::StateBuffer(int sizeX, int sizeY)
 StateBuffer::StateBuffer(const StateBuffer& source)
 {
 	sizeX = source.getSizeX();
-	sizeY = source.getSizeX();
+	sizeY = source.getSizeY();
 
 	data = new int* [sizeY];
 
@@ -55,7 +55,7 @@ StateBuffer& StateBuffer::operator=(const StateBuffer& source)
 	{
 		data[y] = new int[sizeX];
 
-		for (int x = 0; x < sizeX; y++)
+		for (int x = 0; x < sizeX; x++)
 		{
 			data[y][x] = source.get({x, y});
 		}
@@ -85,7 +85,7 @@ bool StateBuffer::operator !=(const StateBuffer& source) const
 
 GAME_OBJECTS StateBuffer::get(const Coordinate& coordinate) const
 {
-	return static_cast<GAME_OBJECTS>(data[coordinate.Y][coordinate.X]);
+	return static_cast<GAME_OBJECTS>(data[coordinate.y][coordinate.x]);
 }
 
 int StateBuffer::getSizeX() const
@@ -105,10 +105,10 @@ void StateBuffer::setObject(const int& X,const int& Y,const GAME_OBJECTS& object
 
 void StateBuffer::eraseObject(const Coordinate& location)
 {
-	this->setObject(location.X, location.Y, GAME_OBJECTS::CARPET);
+	this->setObject(location.x, location.y, GAME_OBJECTS::CARPET);
 }
 
 void StateBuffer::setObject(const Coordinate& location, const GAME_OBJECTS& object)
 {
-	this->setObject(location.X, location.Y, object);
+	this->setObject(location.x, location.y, object);
 }
