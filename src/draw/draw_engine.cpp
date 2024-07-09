@@ -4,36 +4,39 @@
 #include "texture_colors.h"
 
 
-DrawEngine::DrawEngine(int sizeX, int sizeY):
+DrawEngine::DrawEngine(const int& sizeX,const int& sizeY):
 	screenWidth(sizeX),screenHight(sizeY)
 {
-	oldState = new StateBuffer(sizeX,sizeY);
+	oldState = nullptr;
 }
 
 DrawEngine::~DrawEngine() { delete oldState; }
 
-void DrawEngine::update(StateBuffer& newState)
+void DrawEngine::update(const StateBuffer& newState)
 {
-	if (newState != *oldState)
+	if (oldState == nullptr)
 	{
-		for (int Y = 0; Y < newState.getSizeY(); Y++)
+		oldState = new StateBuffer(newState);
+		return;
+	}
+
+	for (int y = 0; y < newState.getSizeY(); y++)
+	{
+		for (int x = 0; x < newState.getSizeX(); x++)
 		{
-			for (int X = 0; X < newState.getSizeX(); X++)
-			{
 
-				if (newState.get({X,Y}) == oldState->get({X,Y}))
-					continue;
+			if (newState.get({x,y}) == oldState->get({x,y}))
+				continue;
 
-				GAME_OBJECTS currObject = GAME_OBJECTS(newState.get({X,Y}));
-				oldState->setObject({X, Y}, currObject);
+			GAME_OBJECTS currObject = GAME_OBJECTS(newState.get({x,y}));
+			oldState->setObject({x, y}, currObject);
 
-				TexturesColors texture = getColorPair(currObject);
-				wchar_t symbol = getSymbol(currObject);
+			TexturesColors texture = getColorPair(currObject);
+			wchar_t symbol = getSymbol(currObject);
 
-				attron(texture);
-				mvaddch(Y, X, symbol);
-				attroff(texture);
-			}
+			attron(texture);
+			mvaddch(y, x, symbol);
+			attroff(texture);
 		}
 	}
 

@@ -17,7 +17,7 @@ public:
 	StateBuffer& operator =(const StateBuffer& source);
 	bool operator !=(const StateBuffer& source) const;
 
-	int get(const Coordinate& coordinate) const;
+	GAME_OBJECTS get(const Coordinate& coordinate) const;
 	int getSizeX() const;
 	int getSizeY() const;
 

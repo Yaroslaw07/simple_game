@@ -9,8 +9,8 @@ protected:
 	int screenWidth, screenHight;
 
 public:
-	DrawEngine(int sizeX, int sizeY);
+	DrawEngine(const int& sizeX,const int& sizeY);
 	~DrawEngine();
 
-	void update(StateBuffer& newState);
+	void update(const StateBuffer& newState);
 };

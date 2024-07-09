@@ -7,7 +7,7 @@
 
 class Game
 {
-	timespec startTime{};
+	timespec startTime{} ;
 	DrawEngine* drawEngine;
 	Board* board;
 public:
@@ -18,6 +18,6 @@ public:
 protected:
 	void gameCycle(const char& key);
 
-	static void lose();
-	static void win();
+	// static void lose();
+	// static void win();
 };

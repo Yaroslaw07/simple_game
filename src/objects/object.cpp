@@ -13,6 +13,15 @@ Coordinate Object::getLocation() const
 	return location;
 }
 
+void Object::setLocation(const Coordinate &newCoordinate) {
+	location = newCoordinate;
+}
+
+Route Object::getRoute() const
+{
+	return route;
+}
+
 void Object::eraseLives(const int& damage = 1)
 {
 	lives -= damage;

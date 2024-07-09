@@ -27,17 +27,17 @@ public:
 
     Board() = default;
 
-    void Board::loadLevel(const std::string& path);
+    void loadLevel(const std::string& path);
 
     BOARD_STATES getState() const;
 
     bool isPositionFree(const Coordinate& point) const;
     void handleMove(const Coordinate& newCoordinate, const Object &object) const;
-    void handleCollision(const Coordinate& coordinate, const Object &object);
+    void handleCollision(const Coordinate& coordinate, const Object &object) const;
 
-    void updateHero(const char& key);
-    void updateEnemy();
-    void updateVoltages();
+    void updateHero(const char &key) const;
+    void updateEnemy() const;
+    void updateVoltages() const;
 };
 
 

@@ -29,11 +29,23 @@ StateBuffer::StateBuffer(const StateBuffer& source)
 
 StateBuffer::~StateBuffer()
 {
+	for (int i = 0; i < sizeY; i++)
+		delete[] data[i];
+
 	delete[] data;
 }
 
 StateBuffer& StateBuffer::operator=(const StateBuffer& source)
 {
+	if (this == &source)
+		return *this;
+
+	for (int i = 0; i < sizeY; i++)
+	{
+		delete[] data[i];
+	}
+	delete[] data;
+
 	sizeX = source.getSizeX();
 	sizeY = source.getSizeX();
 
@@ -54,28 +66,26 @@ StateBuffer& StateBuffer::operator=(const StateBuffer& source)
 
 bool StateBuffer::operator !=(const StateBuffer& source) const
 {
-	bool isNonEqual = false;
+	if (sizeX != source.getSizeX() || sizeY != source.getSizeY())
+		return true;
+
 	for (int i = 0; i < sizeY; i++)
 	{
 		for (int j = 0; j < sizeX; j++)
 		{
-			if (data[i*sizeX + j] != source.get(i, j))
+			if (data[i][j] != source.get({j, i}))
 			{
-				isNonEqual = true;
-				break;
+				return true;
 			}
 		}
 	}
 
-	return isNonEqual;
+	return false;
 }
 
-
-
-
-int StateBuffer::get(const Coordinate& coordinate) const
+GAME_OBJECTS StateBuffer::get(const Coordinate& coordinate) const
 {
-	return data[coordinate.Y][coordinate.X];
+	return static_cast<GAME_OBJECTS>(data[coordinate.Y][coordinate.X]);
 }
 
 int StateBuffer::getSizeX() const

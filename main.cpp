@@ -2,7 +2,7 @@
 
 int main()
 {
-	Game game;
+	auto game = Game();
 	game.Start();
 
 	return 0;

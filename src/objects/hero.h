@@ -8,37 +8,46 @@
 class Hero : public Object
 {	
 private:
-	char Up_Key, Down_Key, Left_Key, Right_Key, Shoot_Key;
+	char upKey, downKey, leftKey, rightKey, shootKey;
 public:
-	Hero(Coordinate location, int lives,char Up_Key,char Down_Key ,char Left_Key ,char Right_Key ,char Shoot_Key): Object(GAME_OBJECTS::HERO, location, lives)
+	Hero(Coordinate location, int lives,char upKey,char downKey ,char leftKey ,char rightKey ,char shootKey):
+		Object(GAME_OBJECTS::HERO, location, lives)
 	{
-		this->Up_Key = Up_Key;
-		this->Down_Key = Down_Key;
-		this->Left_Key = Left_Key;
-		this->Right_Key = Right_Key;
-		this->Shoot_Key = Shoot_Key;
+		this->upKey = upKey;
+		this->downKey = downKey;
+		this->leftKey = leftKey;
+		this->rightKey = rightKey;
+		this->shootKey = shootKey;
 	};
 
-	ACTION_TYPE getAction(const char& key);
-};
+	ACTION_TYPE getAction(const char &key) {
 
-inline ACTION_TYPE Hero::getAction(const char &key) {
-	switch(key) {
-		case Up_Key:
+		if (key == upKey) {
 			route = Route::UP;
 			return ACTION_TYPE::MOVE;
-		case Down_Key:
+		}
+
+		if (key == downKey) {
 			route = Route::DOWN;
 			return ACTION_TYPE::MOVE;
-		case Left_Key:
+		}
+
+		if (key == leftKey) {
 			route = Route::LEFT;
 			return ACTION_TYPE::MOVE;
-		case Right_Key:
+		}
+
+		if (key == rightKey) {
 			route = Route::RIGHT;
 			return ACTION_TYPE::MOVE;
-		case Shoot_Key:
+		}
+
+		if (key == shootKey) {
 			return ACTION_TYPE::SHOOT;
-		default:
-			return ACTION_TYPE::NONE;
+		}
+
+		return ACTION_TYPE::NONE;
 	}
-}
+
+};
+

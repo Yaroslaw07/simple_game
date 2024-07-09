@@ -17,19 +17,20 @@ Game::Game()
 Game::~Game()
 {
 	delete drawEngine;
+	delete board;
 }
 
 void Game::gameCycle(const char& playerInput) {
 
-	if (playerInput != ERR && playerInput != 'e')
-	{
-		board->updateHero(playerInput);
-	}
-
-	board->updateEnemy();
-	board->updateVoltages();
-
-	drawEngine->update(*board->buffer);
+	// if (playerInput != ERR && playerInput != 'e')
+	// {
+	// 	board->updateHero(playerInput);
+	// }
+	//
+	// board->updateEnemy();
+	// board->updateVoltages();
+	//
+	// drawEngine->update(*board->buffer);
 }
 
 
@@ -46,9 +47,9 @@ void Game::Start()
 
 	drawEngine->update(*board->buffer);
 
-	char key = ' ';
+	char key = 'e';
 
-	bool isWin = false;
+	// bool isWin = false;
 
 	clock_gettime(CLOCK_MONOTONIC, &startTime);
 
@@ -62,24 +63,24 @@ void Game::Start()
 		nanosleep(&sleepTime, nullptr);
 	}
 
-	isWin ? win() : lose();
+	// isWin ? win() : lose();
 
 	getch();
 	endwin();
 }
 
-void Game::lose()
-{
-	clear();
-	attron(Wall_Pair);
-	printw("You Lose");
-	attroff(Wall_Pair);
-}
-
-void Game::win()
-{
-	clear();
-	attron(Wall_Pair);
-	printw("You Win");
-	attroff(Wall_Pair);
-}
+// void Game::lose()
+// {
+// 	clear();
+// 	attron(Wall_Pair);
+// 	printw("You Lose");
+// 	attroff(Wall_Pair);
+// }
+//
+// void Game::win()
+// {
+// 	clear();
+// 	attron(Wall_Pair);
+// 	printw("You Win");
+// 	attroff(Wall_Pair);
+// }
