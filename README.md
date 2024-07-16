@@ -1,4 +1,4 @@
-Welcome to the Simple Game repository! This is a basic shooter game developed in C++ that allows players to load levels from a file and engage in simple gameplay using the ncurses library for the terminal interface.
+This is a basic shooter game developed in C++ that allows players to load levels from a file and engage in simple gameplay using the ncurses library for the terminal interface.
 
 ![image](https://github.com/user-attachments/assets/43f6a8bf-d234-4c2e-9748-aab7da4499a6)
 
