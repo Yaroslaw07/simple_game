@@ -63,5 +63,5 @@ After building the game, you can run it using the following command:
 ```
 
 ### Acknowledgments 🙏
-ncurses library
+ - [ncurses library](https://invisible-island.net/ncurses/)
 
