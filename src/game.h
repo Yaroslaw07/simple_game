@@ -16,8 +16,8 @@ public:
 	~Game();
 
 protected:
-	void gameCycle(const char& key);
+	void gameCycle(const char& key) const;
 
-	// static void lose();
-	// static void win();
+	static void lose();
+	static void win();
 };

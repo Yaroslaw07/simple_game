@@ -18,7 +18,7 @@ enum BOARD_STATES {
 class Board {
     Hero* hero = nullptr;
     Enemy* enemy = nullptr;
-    std::vector<Voltage>* voltages = nullptr;
+    std::vector<Voltage> voltages;
 public:
     StateBuffer* buffer = nullptr;
 
@@ -33,11 +33,11 @@ public:
 
     bool isPositionFree(const Coordinate& coordinate) const;
     void handleBufferMove(const Coordinate& newCoordinate, const Object &object) const;
-    void handleBufferCollision(const Coordinate& coordinate, const Object &object) const;
+    void handleBufferCollision(const Coordinate& toCollisionCoordinate, const Object &object) const;
 
-    void updateHero(const char &key) const;
-    void updateEnemy() const;
-    void updateVoltages() const;
+    void updateHero(const char &key);
+    void updateEnemy();
+    void updateVoltages();
 };
 
 

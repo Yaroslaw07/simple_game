@@ -32,19 +32,19 @@ inline TexturesColors getColorPair(const GAME_OBJECTS& obj) {
     }
 }
 
-inline wchar_t getSymbol(GAME_OBJECTS obj) {
+inline wchar_t getSymbol(const GAME_OBJECTS& obj) {
     switch (obj) {
         case CARPET: return ' ';
-        case BOX: return 9604;
+        case BOX: return L'\u9604';
         case HERO:
-        case ENEMY: return 167;
-        case WALL_TOP_LEFT: return 9556;
-        case WALL_BOTTOM_LEFT: return 9562;
-        case WALL_TOP_RIGHT: return 9559;
+        case ENEMY: return L'$';
+        case WALL_TOP_LEFT: return L'\u2551';
+        case WALL_BOTTOM_LEFT: return L'\u25F1';
+        case WALL_TOP_RIGHT: return L'╗';
         case WALL_BOTTOM_RIGHT: return 9565;
         case WALL_HORIZONTAL: return 9552;
         case WALL_VERTICAL: return 9553;
-        case VOLT: return 1161;
+        case VOLT: return '~';
         default: return L'?';
     }
 }

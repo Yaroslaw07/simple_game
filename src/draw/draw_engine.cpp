@@ -13,6 +13,7 @@ DrawEngine::DrawEngine(const int& sizeX,const int& sizeY):
 DrawEngine::~DrawEngine() { delete oldState; }
 
 void DrawEngine::start(const StateBuffer &initState) const  {
+
 	initscr();
 	start_color();
 	curs_set(0);

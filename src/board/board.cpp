@@ -74,28 +74,30 @@ void Board::handleBufferMove(const Coordinate &newCoordinate,const Object &objec
     buffer->setObject(newCoordinate, object.getObjectType());
 }
 
-void Board::handleBufferCollision(const Coordinate &coordinate,const Object &object) const {
+void Board::handleBufferCollision(const Coordinate &toCollisionCoordinate,const Object &object) const {
     if (object.getObjectType() != VOLT) {
         return;
     }
 
-    if (const GAME_OBJECTS collisionObject = buffer->get(coordinate); collisionObject == CARPET || collisionObject == BOX) {
-       return;
+    const GAME_OBJECTS collisionObject = buffer->get(toCollisionCoordinate);
+
+    if (collisionObject == CARPET) {
+        return;
     }
 
-    if (hero->getLocation() == coordinate) {
-        hero->eraseLives(-1);
+    if (hero->getLocation() == toCollisionCoordinate) {
+        hero->eraseLives(1);
     }
 
-    if (enemy->getLocation() == coordinate) {
-        enemy->eraseLives(-1);
+    if (enemy->getLocation() == toCollisionCoordinate) {
+        enemy->eraseLives(1);
     }
 
-    buffer->eraseObject(coordinate);
+    buffer->eraseObject(object.getLocation());
 }
 
 
-void Board::updateHero(const char &key) const {
+void Board::updateHero(const char &key) {
 
     const ACTION_TYPE action = hero->getAction(key);
 
@@ -112,31 +114,33 @@ void Board::updateHero(const char &key) const {
         if (const Coordinate newCoordinate = hero->getLocation() + hero->getRoute();
             isPositionFree(newCoordinate))
         {
-            voltages->emplace_back(newCoordinate, hero->getRoute());
+            voltages.emplace_back(newCoordinate, hero->getRoute());
             buffer->setObject(newCoordinate, VOLT);
         }
     }
 }
 
-void Board::updateEnemy() const {
+void Board::updateEnemy() {
 }
 
-void Board::updateVoltages() const {
+void Board::updateVoltages() {
 
-    auto it = voltages->begin();
+    auto it = voltages.begin();
 
-    while (it != voltages->end()) {
+    while (it != voltages.end()) {
         Voltage& voltage = *it;
 
-        if (const Coordinate newCoordinate = voltage.getLocation() + voltage.getRoute();
+        const Coordinate currentLocation = voltage.getLocation();
+
+        if (const Coordinate newCoordinate = currentLocation + voltage.getRoute();
             isPositionFree(newCoordinate))
         {
             handleBufferMove(newCoordinate, voltage);
             voltage.setLocation(newCoordinate);
             ++it;
         } else {
-            buffer->eraseObject(voltage.getLocation());
-            it = voltages->erase(it);
+            handleBufferCollision(newCoordinate, voltage);
+            it = voltages.erase(it);
         }
     }
 }

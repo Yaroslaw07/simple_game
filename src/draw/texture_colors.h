@@ -20,6 +20,6 @@ inline void defineColors()
 	init_pair(Boxes_Pair, COLOR_CYAN, COLOR_CYAN | 8);
 	init_pair(Hero_Pair, COLOR_WHITE, COLOR_RED | 8);
 	init_pair(Enemy_Pair, COLOR_BLACK, COLOR_RED | 8);
-	init_pair(Wall_Pair, COLOR_RED, COLOR_YELLOW | 8);
+	init_pair(Wall_Pair, COLOR_RED, COLOR_WHITE | 8);
 	init_pair(Volt_Pair, COLOR_CYAN, COLOR_RED | 8);
 }
