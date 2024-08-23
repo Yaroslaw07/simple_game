@@ -1,67 +1,59 @@
-This is a basic shooter game developed in C++ that allows players to load levels from a file and engage in simple gameplay using the ncurses library for the terminal interface.
+# 🎮 Simple Shooter Game
+
+**Simple Shooter Game** is a classic terminal-based game developed using C++ and the ncurses library. It offers a nostalgic gaming experience with a straightforward implementation, making it a great project for learning and experimenting with game development in a console environment.
 
 ![image](https://github.com/user-attachments/assets/43f6a8bf-d234-4c2e-9748-aab7da4499a6)
 
-## Features ✨
-- Load Levels from File: The game reads and loads levels from a level.txt file.
-- Terminal-Based Gameplay: Utilizes the ncurses library for the game interface.
-- Simple Shooting Mechanics: Players can move and shoot within the game environment.
+## 🚀 Features
+
+- **Terminal-Based Gameplay**: Experience a classic shooter game right in your terminal.
+- **C++ & ncurses**: Built with C++ using the ncurses library for handling graphics and input.
+- **Simple Mechanics**: Focus on gameplay with easy-to-understand controls and objectives.
 
 ## To implement 📌
 - [ ] Multi-level support
 - [ ] Enemy logic
 - [ ] Game pause
 
-## To run 🚀
-### Prerequisites
-To run this game, you will need:
 
-- A C++ compiler (such as g++, clang++) 
-- ncurses library installed on your system)
-- CMake (optional, for building the project)
+## 🛠️ Technologies Used
 
-### Cloning the Repository
-First, clone the repository to your local machine using Git:
+- **C++**: Core programming language for game logic.
+- **ncurses**: Library for managing terminal input/output and rendering the game interface.
 
-```sh
-git clone https://github.com/Yaroslaw07/simple_game.git
-cd simple_game
-```
-### Building the Game
-You can build the game using a C++ compiler directly or using CMake. Below are the instructions for both methods.
+## 🧑‍💻 Getting Started
 
-#### Using C++ Compiler Directly
-```sh
-g++ -o simple_game src/*.cpp -lncurses
-```
-#### Using CMake
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/Yaroslaw07/simple_game.git
+    ```
+2. **Install dependencies** (make sure `ncurses` is installed on your system).
+3. **Compile the game**:
+    ```bash
+    mkdir build
+    cd build
+    cmake ..
+    make
+    ```
+4. **Run the game**:
+    ```bash
+    ./simple_game
+    ```
 
-Create a build directory:
+## 🌐 Deployment
 
-```sh
-mkdir build
-cd build
-```
+This game runs directly in the terminal and does not require any external hosting.
 
-Generate the build files using CMake:
+## 🤝 Contributing
 
-```sh
-cmake ..
-```
-Build the project:
+Contributions are welcome! Feel free to submit issues or create pull requests to enhance the game.
 
-```sh
-cmake --build .
-```
+## 📄 License
 
-##### Running the Game
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-After building the game, you can run it using the following command:
+---
 
-```sh
-./simple_game
-```
-
-### Acknowledgments 🙏
+Made with ❤️ by [Yaroslaw07](https://github.com/Yaroslaw07)
  - [ncurses library](https://invisible-island.net/ncurses/)
 
