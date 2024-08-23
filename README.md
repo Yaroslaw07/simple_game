@@ -1,4 +1,4 @@
-# 🎮 Simple Shooter Game
+# 👾 Simple Shooter Game
 
 **Simple Shooter Game** is a classic terminal-based game developed using C++ and the ncurses library. It offers a nostalgic gaming experience with a straightforward implementation, making it a great project for learning and experimenting with game development in a console environment.
 
