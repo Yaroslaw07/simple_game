@@ -1,6 +1,7 @@
 #pragma once
 
 #include <chrono>
+#include <memory>
 
 #include "board/board.h"
 #include "draw/draw_engine.h"
@@ -8,12 +9,11 @@
 class Game
 {
 	timespec startTime{} ;
-	DrawEngine* drawEngine;
-	Board* board;
+	std::unique_ptr<DrawEngine> drawEngine;
+	std::unique_ptr<Board> board;
 public:
 	Game();
 	void Start();
-	~Game();
 
 protected:
 	void gameCycle(const char& key) const;

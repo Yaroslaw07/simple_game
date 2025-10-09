@@ -2,24 +2,25 @@
 
 #include <algorithm>
 #include <fstream>
+#include <stdexcept>
 
 #include <iostream>
+
+Board::Board() = default;
+Board::~Board() = default;
 
 void Board::loadLevel(const std::string& path)
 {
     std::ifstream in(path);
 
     if (!in.is_open()) {
-        printw("Error: Unable to open level file.");
-        getch();
-        endwin();
-        exit(EXIT_FAILURE);
+        throw std::runtime_error("Error: Unable to open level file.");
     }
 
     int index;
     in >> width >> height;
 
-    buffer = new StateBuffer(width, height);
+    buffer = std::make_unique<StateBuffer>(width, height);
 
     for (int Y = 0; Y < height; Y++) {
         for (int X = 0; X < width; X++) {
@@ -33,11 +34,11 @@ void Board::loadLevel(const std::string& path)
                     if (hero != nullptr) {
                         index = CARPET;
                     } else {
-                        hero = new Hero(coordinate, 3, 'w', 's', 'a', 'd', ' ');
+                        hero = std::make_unique<Hero>(coordinate, 3, 'w', 's', 'a', 'd', ' ');
                     }
                 break;
                 case ENEMY:
-                    enemy = new Enemy(coordinate, 3);
+                    enemy = std::make_unique<Enemy>(coordinate, 3);
                 break;
                 case VOLT:
                     index = CARPET;
@@ -85,11 +86,11 @@ void Board::handleBufferCollision(const Coordinate &toCollisionCoordinate,const 
         return;
     }
 
-    if (hero->getLocation() == toCollisionCoordinate) {
+    if (hero && hero->getLocation() == toCollisionCoordinate) {
         hero->eraseLives(1);
     }
 
-    if (enemy->getLocation() == toCollisionCoordinate) {
+    if (enemy && enemy->getLocation() == toCollisionCoordinate) {
         enemy->eraseLives(1);
     }
 
@@ -98,6 +99,9 @@ void Board::handleBufferCollision(const Coordinate &toCollisionCoordinate,const 
 
 
 void Board::updateHero(const char &key) {
+    if (!hero) {
+        return;
+    }
 
     const ACTION_TYPE action = hero->getAction(key);
 
