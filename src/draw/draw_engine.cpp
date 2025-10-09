@@ -1,6 +1,6 @@
 ﻿#include "draw_engine.h"
 
-#include "curses.h"
+#include <curses.h>
 #include "texture_colors.h"
 
 

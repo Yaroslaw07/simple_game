@@ -27,7 +27,25 @@
     ```bash
     git clone https://github.com/Yaroslaw07/simple_game.git
     ```
-2. **Install dependencies** (make sure `ncurses` is installed on your system).
+2. **Install dependencies**
+
+   This project requires the `ncurses` library. You can install it on your system using your package manager.
+
+   **On Debian/Ubuntu:**
+   ```bash
+   sudo apt-get update
+   sudo apt-get install libncurses5-dev libncursesw5-dev
+   ```
+
+   **On Fedora/CentOS:**
+   ```bash
+   sudo dnf install ncurses-devel
+   ```
+
+   **On macOS (using Homebrew):**
+   ```bash
+   brew install ncurses
+   ```
 3. **Compile the game**:
     ```bash
     mkdir build
