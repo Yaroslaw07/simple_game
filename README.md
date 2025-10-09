@@ -48,14 +48,11 @@
    ```
 3. **Compile the game**:
     ```bash
-    mkdir build
-    cd build
-    cmake ..
     make
     ```
 4. **Run the game**:
     ```bash
-    ./simple_game
+    make run
     ```
 
 ## 🌐 Deployment
