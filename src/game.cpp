@@ -7,16 +7,16 @@
 
 Game::Game()
 {
-	board = new Board();
-	board->loadLevel("level.txt");
+	board = std::make_unique<Board>();
+	try {
+		board->loadLevel("level.txt");
+	}
+	catch (const std::runtime_error& e) {
+		std::cerr << e.what() << std::endl;
+		exit(EXIT_FAILURE);
+	}
 
-	drawEngine = new DrawEngine(board->width, board->height);
-}
-
-Game::~Game()
-{
-	delete drawEngine;
-	delete board;
+	drawEngine = std::make_unique<DrawEngine>(board->width, board->height);
 }
 
 

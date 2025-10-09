@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include <objects/enemy.h>
 #include <objects/hero.h>
@@ -16,16 +17,17 @@ enum BOARD_STATES {
 };
 
 class Board {
-    Hero* hero = nullptr;
-    Enemy* enemy = nullptr;
+    std::unique_ptr<Hero> hero = nullptr;
+    std::unique_ptr<Enemy> enemy = nullptr;
     std::vector<Voltage> voltages;
 public:
-    StateBuffer* buffer = nullptr;
+    std::unique_ptr<StateBuffer> buffer = nullptr;
 
     int width = 0;
     int height = 0;
 
-    Board() = default;
+    Board();
+    ~Board();
 
     void loadLevel(const std::string& path);
 
