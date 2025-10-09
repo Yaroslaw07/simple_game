@@ -1,2 +1,18 @@
-.idea
-cmake-build-*
+# IDE and editor specific files
+.idea/
+cmake-build-*/
+*.swp
+*~
+
+# Build artifacts
+build/
+simple_game
+*.o
+*.a
+*.so
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile

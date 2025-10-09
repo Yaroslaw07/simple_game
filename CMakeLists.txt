@@ -6,8 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-
-
 find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 
@@ -22,7 +20,6 @@ add_executable(simple_game main.cpp
         src/objects/object.h
         src/objects/object.cpp
         src/draw/draw_engine.cpp
-        include/curses.h
         src/objects/object_map.h
         src/objects/voltage.h
         src/board/board.cpp
