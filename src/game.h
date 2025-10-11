@@ -11,12 +11,17 @@ class Game
 	timespec startTime{} ;
 	std::unique_ptr<DrawEngine> drawEngine;
 	std::unique_ptr<Board> board;
+
+	bool isPaused = false;
 public:
 	Game();
 	void Start();
 
 protected:
 	void gameCycle(const char& key) const;
+
+	void togglePause();
+	void showPauseScreen() const;
 
 	static void lose();
 	static void win();

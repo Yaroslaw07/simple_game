@@ -34,12 +34,23 @@ void Game::Start()
 	{
 		key = getch();
 
-		gameCycle(key);
+		if (key == 'p')
+		{
+			togglePause();
+		}
+
+		if (!isPaused)
+		{
+			gameCycle(key);
+		}
 
 		timespec sleepTime = {0, 50000000L}; // 50 milliseconds
 		nanosleep(&sleepTime, nullptr);
 
-		drawEngine->update(*board->buffer);
+		if (!isPaused)
+		{
+			drawEngine->update(*board->buffer);
+		}
 
 		if (board->getState() != NO_STATE)
 		{
@@ -62,9 +73,29 @@ void Game::Start()
 	DrawEngine::end();
 }
 
+void Game::togglePause()
+{
+	isPaused = !isPaused;
+	if(isPaused)
+	{
+		showPauseScreen();
+	}
+	else
+	{
+		drawEngine->start(*board->buffer);
+	}
+}
+
+void Game::showPauseScreen() const
+{
+	clear();
+	printw("Game Paused");
+	refresh();
+}
+
 void Game::gameCycle(const char& playerInput) const {
 
-	if (playerInput != ERR && playerInput != 'e')
+	if (playerInput != ERR && playerInput != 'e' && playerInput != 'p')
 	{
 		board->updateHero(playerInput);
 	}
