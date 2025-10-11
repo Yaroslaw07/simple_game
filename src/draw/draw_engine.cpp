@@ -1,6 +1,7 @@
 ﻿#include "draw_engine.h"
 
 #include <curses.h>
+#include <wchar.h>
 #include "texture_colors.h"
 
 
@@ -56,11 +57,12 @@ void DrawEngine::end() {
 void DrawEngine::drawPixel(const Coordinate &coordinate, const GAME_OBJECTS &object) const
 {
 	const TexturesColors texture = getColorPair(object);
-	const wchar_t symbol = getSymbol(object);
+	const wchar_t symbol[2] = {getSymbol(object), L'\0'};
 
-	attron(COLOR_PAIR(texture));
-	mvaddch(coordinate.y, coordinate.x, symbol);
-	attroff(COLOR_PAIR(texture));
+	cchar_t wch;
+	setcchar(&wch, symbol, WA_NORMAL, (short)texture, NULL);
+
+	mvadd_wch(coordinate.y, coordinate.x, &wch);
 
 	oldState->setObject({coordinate.x, coordinate.y}, object);
 }

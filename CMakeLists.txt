@@ -6,8 +6,16 @@ set(CMAKE_CXX_STANDARD 17)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-find_package(Curses REQUIRED)
-include_directories(${CURSES_INCLUDE_DIR})
+find_path(NCURSESW_INCLUDE_DIR NAMES curses.h PATH_SUFFIXES ncursesw)
+if(NOT NCURSESW_INCLUDE_DIR)
+  message(FATAL_ERROR "ncursesw include directory not found")
+endif()
+include_directories(${NCURSESW_INCLUDE_DIR})
+
+find_library(NCURSESW_LIBRARY NAMES ncursesw)
+if(NOT NCURSESW_LIBRARY)
+  message(FATAL_ERROR "ncursesw library not found")
+endif()
 
 add_executable(simple_game main.cpp
         src/game.h
@@ -27,4 +35,4 @@ add_executable(simple_game main.cpp
         src/objects/action.h
 )
 
-target_link_libraries(simple_game ${CURSES_LIBRARIES})
+target_link_libraries(simple_game ${NCURSESW_LIBRARY})
