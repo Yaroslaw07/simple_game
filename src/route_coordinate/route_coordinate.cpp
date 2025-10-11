@@ -30,6 +30,10 @@ bool Coordinate::operator==(const Coordinate &coordinate) const {
 	return (this->x == coordinate.x && this->y == coordinate.y);
 }
 
+bool Coordinate::operator!=(const Coordinate& coordinate) const {
+    return !(*this == coordinate);
+}
+
 Coordinate operator+(const Coordinate& current, const Route& route)
 {
 	Coordinate location = current;

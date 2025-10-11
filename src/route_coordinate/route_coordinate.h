@@ -15,4 +15,5 @@ public:
 	friend Coordinate operator+(const Coordinate& current, const Route& route);
 	void operator+=(const Route& route);
 	bool operator==(const Coordinate& coordinate) const;
+	bool operator!=(const Coordinate& coordinate) const;
 };

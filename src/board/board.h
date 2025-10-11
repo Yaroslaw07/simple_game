@@ -20,6 +20,9 @@ class Board {
     std::unique_ptr<Hero> hero = nullptr;
     std::unique_ptr<Enemy> enemy = nullptr;
     std::vector<Voltage> voltages;
+
+    int enemyMoveDelay = 3;
+    int enemyMoveTimer = 0;
 public:
     std::unique_ptr<StateBuffer> buffer = nullptr;
 

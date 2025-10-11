@@ -125,6 +125,57 @@ void Board::updateHero(const char &key) {
 }
 
 void Board::updateEnemy() {
+    if (!hero || !enemy) {
+        return;
+    }
+
+    enemyMoveTimer--;
+    if (enemyMoveTimer > 0) {
+        return;
+    }
+    enemyMoveTimer = enemyMoveDelay;
+
+    const Coordinate heroLocation = hero->getLocation();
+    const Coordinate enemyLocation = enemy->getLocation();
+
+    // Horizontal movement
+    Coordinate nextHorizontalLocation = enemyLocation;
+    if (heroLocation.x > enemyLocation.x) {
+        nextHorizontalLocation.x = enemyLocation.x + 1;
+    } else if (heroLocation.x < enemyLocation.x) {
+        nextHorizontalLocation.x = enemyLocation.x - 1;
+    }
+
+    if (nextHorizontalLocation != enemyLocation) {
+        if (nextHorizontalLocation == heroLocation) {
+            hero->eraseLives(1);
+            return; // Attacked, so we are done for this turn
+        }
+        if (isPositionFree(nextHorizontalLocation)) {
+            handleBufferMove(nextHorizontalLocation, *enemy);
+            enemy->setLocation(nextHorizontalLocation);
+            return; // Moved, so we are done for this turn
+        }
+    }
+
+    // Vertical movement
+    Coordinate nextVerticalLocation = enemyLocation;
+    if (heroLocation.y > enemyLocation.y) {
+        nextVerticalLocation.y = enemyLocation.y + 1;
+    } else if (heroLocation.y < enemyLocation.y) {
+        nextVerticalLocation.y = enemyLocation.y - 1;
+    }
+
+    if (nextVerticalLocation != enemyLocation) {
+        if (nextVerticalLocation == heroLocation) {
+            hero->eraseLives(1);
+            return; // Attacked, so we are done for this turn
+        }
+        if (isPositionFree(nextVerticalLocation)) {
+            handleBufferMove(nextVerticalLocation, *enemy);
+            enemy->setLocation(nextVerticalLocation);
+        }
+    }
 }
 
 void Board::updateVoltages() {
