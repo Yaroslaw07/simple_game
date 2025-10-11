@@ -21,7 +21,7 @@ class Board {
     std::unique_ptr<Enemy> enemy = nullptr;
     std::vector<Voltage> voltages;
 
-    int enemyMoveDelay = 3;
+    int enemyMoveDelay = 5;
     int enemyMoveTimer = 0;
 public:
     std::unique_ptr<StateBuffer> buffer = nullptr;
@@ -38,11 +38,16 @@ public:
 
     bool isPositionFree(const Coordinate& coordinate) const;
     void handleBufferMove(const Coordinate& newCoordinate, const Object &object) const;
-    void handleBufferCollision(const Coordinate& toCollisionCoordinate, const Object &object) const;
+    void handleBufferCollision(const Coordinate& toCollisionCoordinate, const Object &object);
+
+    void breakObject(const Coordinate& coordinate);
 
     void updateHero(const char &key);
     void updateEnemy();
     void updateVoltages();
+
+private:
+    std::vector<Coordinate> getValidMoves(const Coordinate& location) const;
 };
 
 

@@ -1,10 +1,15 @@
 #include "route_coordinate.h"
+#include <cmath>
 
 Coordinate::Coordinate():
 	x(0), y(0){}
 
 Coordinate::Coordinate(int x, int y) :
 	x(x), y(y){}
+
+double Coordinate::distance(const Coordinate& other) const {
+    return std::sqrt(std::pow(x - other.x, 2) + std::pow(y - other.y, 2));
+}
 
 void Coordinate::operator+=(const Route& route)
 {
@@ -55,4 +60,8 @@ Coordinate operator+(const Coordinate& current, const Route& route)
 	}
 
 	return location;
+}
+
+Coordinate operator+(const Coordinate& a, const Coordinate& b) {
+    return Coordinate(a.x + b.x, a.y + b.y);
 }

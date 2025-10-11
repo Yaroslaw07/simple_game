@@ -34,7 +34,7 @@ void Board::loadLevel(const std::string& path)
                     if (hero != nullptr) {
                         index = CARPET;
                     } else {
-                        hero = std::make_unique<Hero>(coordinate, 3, 'w', 's', 'a', 'd', ' ');
+                        hero = std::make_unique<Hero>(coordinate, 5, 'w', 's', 'a', 'd', ' ');
                     }
                 break;
                 case ENEMY:
@@ -75,7 +75,7 @@ void Board::handleBufferMove(const Coordinate &newCoordinate,const Object &objec
     buffer->setObject(newCoordinate, object.getObjectType());
 }
 
-void Board::handleBufferCollision(const Coordinate &toCollisionCoordinate,const Object &object) const {
+void Board::handleBufferCollision(const Coordinate &toCollisionCoordinate,const Object &object) {
     if (object.getObjectType() != VOLT) {
         return;
     }
@@ -84,6 +84,10 @@ void Board::handleBufferCollision(const Coordinate &toCollisionCoordinate,const 
 
     if (collisionObject == CARPET) {
         return;
+    }
+
+    if (collisionObject == BOX) {
+        breakObject(toCollisionCoordinate);
     }
 
     if (hero && hero->getLocation() == toCollisionCoordinate) {
@@ -95,6 +99,10 @@ void Board::handleBufferCollision(const Coordinate &toCollisionCoordinate,const 
     }
 
     buffer->eraseObject(object.getLocation());
+}
+
+void Board::breakObject(const Coordinate& coordinate) {
+    buffer->setObject(coordinate, CARPET);
 }
 
 
@@ -135,46 +143,25 @@ void Board::updateEnemy() {
     }
     enemyMoveTimer = enemyMoveDelay;
 
+    const auto validMoves = getValidMoves(enemy->getLocation());
+
+    if (validMoves.empty()) {
+        return;
+    }
+
     const Coordinate heroLocation = hero->getLocation();
-    const Coordinate enemyLocation = enemy->getLocation();
+    const auto bestMove = std::min_element(validMoves.begin(), validMoves.end(),
+        [&](const Coordinate& a, const Coordinate& b) {
+            return a.distance(heroLocation) < b.distance(heroLocation);
+        });
 
-    // Horizontal movement
-    Coordinate nextHorizontalLocation = enemyLocation;
-    if (heroLocation.x > enemyLocation.x) {
-        nextHorizontalLocation.x = enemyLocation.x + 1;
-    } else if (heroLocation.x < enemyLocation.x) {
-        nextHorizontalLocation.x = enemyLocation.x - 1;
-    }
-
-    if (nextHorizontalLocation != enemyLocation) {
-        if (nextHorizontalLocation == heroLocation) {
-            hero->eraseLives(1);
-            return; // Attacked, so we are done for this turn
-        }
-        if (isPositionFree(nextHorizontalLocation)) {
-            handleBufferMove(nextHorizontalLocation, *enemy);
-            enemy->setLocation(nextHorizontalLocation);
-            return; // Moved, so we are done for this turn
-        }
-    }
-
-    // Vertical movement
-    Coordinate nextVerticalLocation = enemyLocation;
-    if (heroLocation.y > enemyLocation.y) {
-        nextVerticalLocation.y = enemyLocation.y + 1;
-    } else if (heroLocation.y < enemyLocation.y) {
-        nextVerticalLocation.y = enemyLocation.y - 1;
-    }
-
-    if (nextVerticalLocation != enemyLocation) {
-        if (nextVerticalLocation == heroLocation) {
-            hero->eraseLives(1);
-            return; // Attacked, so we are done for this turn
-        }
-        if (isPositionFree(nextVerticalLocation)) {
-            handleBufferMove(nextVerticalLocation, *enemy);
-            enemy->setLocation(nextVerticalLocation);
-        }
+    if (*bestMove == heroLocation) {
+        hero->eraseLives(1);
+    } else if (buffer->get(*bestMove) == BOX) {
+        breakObject(*bestMove);
+    } else {
+        handleBufferMove(*bestMove, *enemy);
+        enemy->setLocation(*bestMove);
     }
 }
 
@@ -199,6 +186,25 @@ void Board::updateVoltages() {
         }
     }
 }
+
+std::vector<Coordinate> Board::getValidMoves(const Coordinate& location) const {
+    std::vector<Coordinate> validMoves;
+    const Coordinate deltas[] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+    for (const auto& delta : deltas) {
+        const Coordinate newLocation = location + delta;
+        if (newLocation.x >= 0 && newLocation.x < width && newLocation.y >= 0 && newLocation.y < height) {
+            if (isPositionFree(newLocation) || (hero && newLocation == hero->getLocation()) || buffer->get(newLocation) == BOX) {
+                validMoves.push_back(newLocation);
+            }
+        }
+    }
+
+    return validMoves;
+}
+
+
+
 
 
 
